@@ -11,9 +11,9 @@ const opts = {
 };
 
 // Require the user model
-const User = require("../models/User");
+const Business = require("../models/Business");
 const strategy = new Strategy(opts, function (jwt_payload, done) {
-  User.findById(jwt_payload.id)
+  Business.findById(jwt_payload.id)
     .then((user) => done(null, user))
     .catch((err) => done(err));
 });

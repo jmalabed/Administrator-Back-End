@@ -14,7 +14,7 @@ const register = async (req, res, next) => {
     const inputPass = req.body.pass;
     req.body.pass = passwordHash;
     // pass password to user model
-    const newUser = await User.create(req.body);
+    const newUser = await Business.create(req.body);
     console.log(newUser);
     if (newUser) {
       // reset req.body.pass to user password nohash
@@ -37,7 +37,7 @@ const register = async (req, res, next) => {
 const login = async (req, res) => {
   try {
     const loggingUser = req.body.user;
-    const foundUser = await User.findOne({ user: loggingUser });
+    const foundUser = await Business.findOne({ user: loggingUser });
     const token = await createUserToken(req, foundUser);
     res.status(200).json({
       user: foundUser,
