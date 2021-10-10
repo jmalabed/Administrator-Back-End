@@ -10,7 +10,7 @@ const businessController = require("./controllers/business");
 const conferenceController = require("./controllers/conference");
 const hotdeskController = require("./controllers/hotdesk");
 const personController = require("./controllers/person");
-
+const authController = require("./controllers/auth");
 // Cors
 
 const whitelist = ["http://localhost:3000"];
@@ -28,6 +28,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 // Routing
+app.use("/auth", authController);
 app.use("/business", businessController);
 app.use("/conference", conferenceController);
 app.use("/hotdesk", hotdeskController);
