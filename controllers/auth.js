@@ -1,12 +1,23 @@
 const express = require("express");
 const Business = require("../models/Business");
 const bcrypt = require("bcrypt");
-const { createUserToken, requireToken } = require("../middleware/auth");
+const { createBisToken, requireToken } = require("../middleware/auth");
 
 const router = express.Router();
 
-// Register Route
-const register = async (req, res, next) => {
+// get all
+// get route for dev checking
+router.get("/", async (req, res) => {
+  try {
+    const allBis = await Business.find();
+    res.status(200).json(allBis);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Register Route - Sign Up
+router.post("/register", async (req, res, next) => {
   // password hash
   try {
     const salt = await bcrypt.genSalt(10);
@@ -14,16 +25,17 @@ const register = async (req, res, next) => {
     const inputPass = req.body.pass;
     req.body.pass = passwordHash;
     // pass password to user model
-    const newUser = await Business.create(req.body);
-    console.log(newUser);
-    if (newUser) {
+    const newBis = await Business.create(req.body);
+    console.log(newBis);
+    if (newBis) {
       // reset req.body.pass to user password nohash
       req.body.pass = inputPass;
-      const authenticatedUserToken = createUserToken(req, newUser);
+      const authenticatedToken = createBisToken(req, newBis);
+      //response status message
       res.status(201).json({
-        user: newUser,
+        user: newBis,
         isLoggedIn: true,
-        token: authenticatedUserToken,
+        token: authenticatedToken,
       });
     } else {
       res.status(400).json({ error: "Error on User register route" });
@@ -31,32 +43,34 @@ const register = async (req, res, next) => {
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-};
+});
 
 // SIGN IN
-const login = async (req, res) => {
+//
+router.post("/login", async (req, res) => {
   try {
-    const loggingUser = req.body.user;
-    const foundUser = await Business.findOne({ user: loggingUser });
-    const token = await createUserToken(req, foundUser);
+    const loggingBis = req.body.name;
+    const foundBis = await Business.findOne({ name: loggingUser });
+    const token = await createBisToken(req, foundBis);
     res.status(200).json({
-      user: foundUser,
+      bis: foundBis,
       isLoggedIn: true,
       token: token,
     });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
-};
+});
 
 // Logout
 // Get - ('/auth/logout')
 router.get("/logout", requireToken, async (req, res, next) => {
   try {
-    const currentUser = req.user.username;
+    const currentBis = req;
+    console.log(currentBis);
     delete req.user;
     res.status(200).json({
-      message: `${currentUser} currently logged in`,
+      message: `Logging out of ${currentBis}. Thank you!`,
       isLoggedIn: false,
       token: "",
     });
@@ -65,7 +79,16 @@ router.get("/logout", requireToken, async (req, res, next) => {
   }
 });
 
+//delete for b-e setup
+router.delete("/delete/:id", async (req, res, next) => {
+  try {
+    const deletedBis = await Business.findByIdAndRemove(req.params.id);
+    res.status(200).json(deletedBis);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 // Routing
-router.post("/register", register);
-router.post("/login", login);
+
 module.exports = router;
