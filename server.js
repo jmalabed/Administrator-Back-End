@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 9000;
 const methodOverride = require("method-override");
 const cors = require("cors");
 // Controllers
-const businessController = require("./controllers/business");
 const conferenceController = require("./controllers/conference");
 const hotdeskController = require("./controllers/hotdesk");
 const personController = require("./controllers/person");
@@ -29,7 +28,6 @@ app.use(express.json());
 app.use(cors(corsOptions));
 // Routing
 app.use("/auth", authController);
-app.use("/business", businessController);
 app.use("/conference", conferenceController);
 app.use("/hotdesk", hotdeskController);
 app.use("/person", personController);

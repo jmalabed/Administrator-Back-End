@@ -50,7 +50,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res) => {
   try {
     const loggingBis = req.body.name;
-    const foundBis = await Business.findOne({ name: loggingUser });
+    const foundBis = await Business.findOne({ name: loggingBis });
     const token = await createBisToken(req, foundBis);
     res.status(200).json({
       bis: foundBis,

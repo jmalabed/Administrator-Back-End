@@ -2,8 +2,7 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const secret =
-  process.env.JWT_SECRET || "some string value only your app knows";
+const secret = process.env.JWT_SECRET || "secretstringissecret";
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -23,17 +22,17 @@ passport.initialize();
 
 const requireToken = passport.authenticate("jwt", { session: false });
 
-const createBisToken = (req, user) => {
+const createBisToken = (req, bis) => {
   if (
-    !user ||
+    !bis.name ||
     !req.body.pass ||
-    !bcrypt.compareSync(req.body.pass, user.pass)
+    !bcrypt.compareSync(req.body.pass, bis.pass)
   ) {
     const err = new Error("The provided username or password is incorrect");
     err.statusCode = 422;
     throw err;
   }
-  return jwt.sign({ id: user._id }, secret, { expiresIn: 36000 });
+  return jwt.sign({ id: bis._id }, secret, { expiresIn: 36000 });
 };
 
 module.exports = { requireToken, createBisToken };
