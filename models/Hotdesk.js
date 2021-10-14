@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const hotdeskSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   business: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Business",

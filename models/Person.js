@@ -8,11 +8,15 @@ const personSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+    },
+    phone: {
+      type: String,
       required: true,
     },
-    datesVisited: {
-      type: [Date],
-      default: [""],
+
+    dateVisited: {
+      type: Date,
+      default: "",
     },
 
     business: {
@@ -22,6 +26,11 @@ const personSchema = new mongoose.Schema(
     isInfected: {
       type: Boolean,
       default: false,
+    },
+    visiting: String,
+    isEmployee: {
+      type: Boolean,
+      required: true,
     },
   },
   { timestamps: true }
