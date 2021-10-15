@@ -15,10 +15,14 @@ const personController = require("./controllers/person");
 const authController = require("./controllers/auth");
 // Cors
 
-const whitelist = ["http://localhost:3000"];
+const whitelist = [
+  "http://localhost:3000",
+  "https://office-culture.surge.sh/",
+  "https://office-culture.herokuapp.com/",
+];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (whitelist.indexOf(origin) != -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error("not allowed by CORS"));
