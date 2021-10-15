@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 // Register Route - Sign Up
 router.post("/register", async (req, res, next) => {
   // password hash
-  req.set("Access-Control-Allow-Origin", "*");
+
   try {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(req.body.pass, salt);
