@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/jmalabed/ga-capstone-be.git"
   },
+  "engines": {
+    "node": "14.17.6"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
