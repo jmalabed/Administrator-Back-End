@@ -2,6 +2,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+import cors from "cors";
 require("./db/db");
 
 // Controllers
@@ -18,7 +19,7 @@ const PORT = process.env.PORT || 9000;
 const whiteList = [
   "http://localhost:3000",
   "https://office-culture.surge.sh",
-  "https://git.heroku.com/office-culture.git",
+  "https://office-culture.herokuapp.com",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
