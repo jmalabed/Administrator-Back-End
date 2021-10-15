@@ -27,7 +27,6 @@ router.post("/register", async (req, res, next) => {
     req.body.pass = passwordHash;
     // pass password to user model
     const newBis = await Business.create(req.body);
-    console.log(newBis);
     if (newBis) {
       // reset req.body.pass to user password nohash
       req.body.pass = inputPass;

@@ -23,7 +23,6 @@ const whiteList = [
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteList.includes(origin) || !origin) {
-      console.log(whiteList.includes(origin));
       callback(null, true);
     } else {
       callback(new Error("not allowed by CORS"));
