@@ -8,6 +8,7 @@ const hotdeskSchema = new mongoose.Schema({
   },
   isOccupied: Boolean,
   timeOccupied: Date,
+  endTime: Date,
 });
 HotDesk = mongoose.model("HotDesk", hotdeskSchema);
 module.exports = HotDesk;
