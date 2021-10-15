@@ -1,11 +1,11 @@
 // dependencies
 require("dotenv").config();
 const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-require("./db/db");
-const PORT = process.env.PORT || 9000;
 const cors = require("cors");
+require("./db/db");
+
+const app = express();
+const PORT = process.env.PORT || 9000;
 
 // Controllers
 const conferenceController = require("./controllers/conference");
@@ -20,8 +20,8 @@ const whitelist = [
   "https://office-culture.herokuapp.com/",
 ];
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) || !origin) {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error("not allowed by CORS"));
@@ -41,6 +41,6 @@ app.use("/hotdesk", hotdeskController);
 app.use("/person", personController);
 
 // Listen
-app.listen(PORT, (req, res) => {
+app.listen(PORT, () => {
   console.log("listening on port", PORT);
 });
