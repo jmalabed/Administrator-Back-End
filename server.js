@@ -17,7 +17,7 @@ const authController = require("./controllers/auth");
 const whitelist = [
   "http://localhost:3000",
   "https://office-culture.surge.sh/",
-  "https://office-culture.herokuapp.com/",
+  "https://git.heroku.com/office-culture.git",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
