@@ -4,24 +4,26 @@ const express = require("express");
 const cors = require("cors");
 require("./db/db");
 
-const app = express();
-const PORT = process.env.PORT || 9000;
-
 // Controllers
 const conferenceController = require("./controllers/conference");
 const hotdeskController = require("./controllers/hotdesk");
 const personController = require("./controllers/person");
 const authController = require("./controllers/auth");
+
+const app = express();
+const PORT = process.env.PORT || 9000;
+
 // Cors
 
-const whitelist = [
+const whiteList = [
   "http://localhost:3000",
-  "https://office-culture.surge.sh/",
+  "https://office-culture.surge.sh",
   "https://git.heroku.com/office-culture.git",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
-    if (whitelist.includes(origin) || !origin) {
+    if (whiteList.includes(origin) || !origin) {
+      console.log(whiteList.includes(origin));
       callback(null, true);
     } else {
       callback(new Error("not allowed by CORS"));
