@@ -2,7 +2,12 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-
+const bodyParser = require("body-parser");
+const pino = require("express-pino-logger")();
+const client = require("twilio")(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 require("./db/db");
 
 // Controllers
@@ -35,12 +40,33 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(pino);
 
 // Routing
 app.use("/auth", authController);
 app.use("/conference", conferenceController);
 app.use("/hotdesk", hotdeskController);
 app.use("/person", personController);
+
+// TWILIO SMS rest-route
+app.post("/api/messages", (req, res) => {
+  res.header("Content-Type", "application/json");
+  client.messages
+    .create({
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: req.body.to,
+      body: req.body.body,
+    })
+    .then(() => {
+      res.send(JSON.stringify({ success: true }));
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(JSON.stringify({ success: false }));
+    });
+});
 
 // Listen
 app.listen(PORT, () => {
