@@ -1,4 +1,4 @@
-# The Office Culture
+# The Administrator
 
 ## General Assembly Capstone Project
 
