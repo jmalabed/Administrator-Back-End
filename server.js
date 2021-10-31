@@ -68,6 +68,9 @@ app.post("/api/messages", (req, res) => {
     });
 });
 
+// QR CODE API
+app.get("/api/qr", (req, res) => {});
+
 // Listen
 app.listen(PORT, () => {
   console.log("listening on port", PORT);

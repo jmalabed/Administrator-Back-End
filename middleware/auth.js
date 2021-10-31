@@ -2,7 +2,8 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const secret = process.env.JWT_SECRET || "secretstringissecret";
+const secret =
+  process.env.JWT_SECRET || "some string value only your app knows";
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -20,6 +21,7 @@ const strategy = new Strategy(opts, function (jwt_payload, done) {
 passport.use(strategy);
 passport.initialize();
 
+// this is the name of the variable to be used in the rest of the routes.
 const requireToken = passport.authenticate("jwt", { session: false });
 
 const createBisToken = (req, bis) => {
@@ -35,4 +37,13 @@ const createBisToken = (req, bis) => {
   return jwt.sign({ id: bis._id }, secret, { expiresIn: 36000 });
 };
 
-module.exports = { requireToken, createBisToken };
+const handleValidateOwnership = (req, document) => {
+  const ownerId = document.owner._id || document.owner;
+  if (!req.user._id.equals(ownerId)) {
+    return new Error("Unauthorized Access");
+  } else {
+    return document;
+  }
+};
+
+module.exports = { handleValidateOwnership, requireToken, createBisToken };

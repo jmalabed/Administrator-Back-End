@@ -1,8 +1,11 @@
 const express = require("express");
 const Business = require("../models/Business");
 const bcrypt = require("bcrypt");
-const { createBisToken, requireToken } = require("../middleware/auth");
-
+const {
+  handleValidateOwnership,
+  requireToken,
+  createBisToken,
+} = require("../middleware/auth");
 const router = express.Router();
 
 // get all
@@ -33,7 +36,7 @@ router.post("/register", async (req, res, next) => {
       const authenticatedToken = createBisToken(req, newBis);
       //response status message
       res.status(201).json({
-        user: newBis,
+        bis: newBis,
         isLoggedIn: true,
         token: authenticatedToken,
       });
@@ -47,7 +50,7 @@ router.post("/register", async (req, res, next) => {
 
 // SIGN IN
 //
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const loggingBis = req.body.name;
     const foundBis = await Business.findOne({ name: loggingBis });
@@ -66,9 +69,9 @@ router.post("/login", async (req, res) => {
 // Get - ('/auth/logout')
 router.get("/logout", requireToken, async (req, res, next) => {
   try {
-    const currentBis = req;
+    const currentBis = req.bis.name;
     console.log(currentBis);
-    delete req.user;
+    delete req.bis;
     res.status(200).json({
       message: `Logging out of ${currentBis}. Thank you!`,
       isLoggedIn: false,
