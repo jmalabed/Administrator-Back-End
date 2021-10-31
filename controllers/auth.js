@@ -67,7 +67,7 @@ router.post("/login", async (req, res, next) => {
 
 // Logout
 // Get - ('/auth/logout')
-router.get("/logout", requireToken, async (req, res, next) => {
+router.get("/logout", async (req, res, next) => {
   try {
     const currentBis = req.bis.name;
     console.log(currentBis);
