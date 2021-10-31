@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Conference = require("../models/Conference");
+const {
+  handleValidateOwnership,
+  requireToken,
+  createBisToken,
+} = require("../middleware/auth");
 
 // -- index --
-router.get("/", async (req, res) => {
+router.get("/", requireToken, async (req, res, next) => {
   try {
     const Conferences = await Conference.find();
     res.status(200).json(Conferences);
@@ -13,7 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 // -- show --
-router.get("/:id", async (req, res) => {
+router.get("/:id", requireToken, async (req, res, next) => {
   try {
     const foundConference = await Conference.findById(req.params.id);
     res.status(200).json(foundConference);
@@ -23,7 +28,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // -- create --
-router.post("/", async (req, res) => {
+router.post("/", requireToken, async (req, res, next) => {
   try {
     const newConference = await Conference.create(req.body);
     res.status(200).json(newConference);
@@ -33,7 +38,7 @@ router.post("/", async (req, res) => {
 });
 
 // -- destory --
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireToken, async (req, res, next) => {
   try {
     const deletedConference = await Conference.findByIdAndRemove(req.params.id);
     res.status(200).json(deletedConference);
@@ -43,7 +48,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 // -- update --
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireToken, async (req, res, next) => {
   try {
     const updatedConference = await Conference.findByIdAndUpdate(
       req.params.id,
