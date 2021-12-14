@@ -53,7 +53,14 @@ https://office-culture.surge.sh
 
 ## Site Graphics
 
-https://github.com/jmalabed/ga-capstone-be/blob/main/readme/wireframes.md
+### Wireframes
+
+![Image of Wireframes](https://github.com/jmalabed/Administrator-Back-End/blob/main/img/administrator-full-wireframes.png?raw=true)
+[Link to full wireframe](https://whimsical.com/covid-tracker-6fwqnmsjsuYbuo55pMUpZY)
+
+### Entity Relationship Diagram
+
+![Image of ERD](https://github.com/jmalabed/Administrator-Back-End/blob/main/img/administrator-ERD.png?raw=true)
 
 ## Future Work
 
